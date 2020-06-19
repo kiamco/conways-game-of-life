@@ -15,6 +15,15 @@ const useStyles = makeStyles({
 
 const Controls = () => {
 
+    const reset = () => {
+        // write reset logic
+
+    }
+
+    const start = () => {
+        // write start logic
+    }
+
     const classes = useStyles();
 
     return (
