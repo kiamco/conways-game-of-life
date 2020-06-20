@@ -9,7 +9,6 @@ export const GridProvider = props => {
     const [columns, setColumns] = useState(25);
     const [cellSize] = useState(15);
     const [gridState, setGridState] = useState([]);
-    const gridWidth = rows * cellSize;
 
     /**
      * gets the grid by getting the pro of row and cellSize
@@ -82,7 +81,6 @@ export const GridProvider = props => {
         columns,
         setColumns,
         cellSize,
-        gridWidth,
         getGridWidth,
         createCells,
         initGrid,
