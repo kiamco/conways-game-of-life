@@ -6,8 +6,8 @@ export const GridProvider = props => {
     // set columns and rows
     const [rows, setRows] = useState(25);
     const [columns, setColumns] = useState(25);
-    const [cellSize] = useState(5);
-    const gridWidth = rows * cellSize
+    const [cellSize] = useState(15);
+    const gridWidth = rows * cellSize  
 
     const combinedValues = {
         rows,
