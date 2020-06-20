@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Box, Container} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridContext } from '../context/gridContext';
@@ -21,54 +21,32 @@ const useStyles = makeStyles({
 
 const Grid = () => {
 
+    // context
     const gridProps = useContext(GridContext);
     const classes = useStyles(gridProps);
 
     /**
-     * this creates a two dimensinoal array given array size 
-     * @param {int} numRows 
+     * renders cells
      */
-    const createCells = (numRows) => {
-        let arr = [];
-
-        // create 2 dimensional array
-        for(let i = 0; i < gridProps.rows; i++){
-            arr[i] = [];
-        };
-
-        return arr;
+    const renderCells = () => {
+        return gridProps.initGrid(gridProps.createCells(25));
     };
 
     /**
-     * fills a 2d array with false boolean values
-     * @param {array} arr2D 
+     * useEffect hook keeps track of change 
+     * after componnet is mounted
      */
-    const initCellValue = (arr2D) => {
+    useEffect(()=> {
+        gridProps.setGridState(renderCells);
+    },[]);
 
-        // assing temp value for immutability
-        const filledArray = arr2D;
+    console.log(gridProps.gridState)
 
-        // iterate 2D array and fill false value
-        for (let col = 0; col < gridProps.columns; col++) {
-            for (let row = 0; row < gridProps.rows; row++) {
-                // for each position add a cell
-                filledArray[row][col] = <Cell key={`${row},${col}`} value={false} colNum={col} rowNum={row} />;
-            };
-        };
-
-        return filledArray;
-        
-    };
-
-
-    const renderCells = () => {
-        return initCellValue(createCells(25))
-    }
 
     return (
         <Container className={classes.wrapper}>
         <Box className={classes.grid}>
-           {renderCells()}
+           {gridProps.gridState}
         </Box>
         </Container>
     );

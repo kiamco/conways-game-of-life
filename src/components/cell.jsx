@@ -29,6 +29,7 @@ const Cell = (props) => {
     // change color if click
     const onClickHandler = (e) => {
         setColor(color => !color);
+        gridProps.updateCell(props.rowNum, props.colNum)
     };
 
     return(
