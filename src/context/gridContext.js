@@ -7,7 +7,7 @@ export const GridProvider = props => {
     // set columns and rows
     const [rows, setRows] = useState(25);
     const [columns, setColumns] = useState(25);
-    const [cellSize] = useState(20);
+    const [cellSize] = useState(5);
 
     /**
      * gets the grid by getting the pro of row and cellSize
@@ -44,7 +44,7 @@ export const GridProvider = props => {
         for (let col = 0; col < columns; col++) {
             for (let row = 0; row < rows; row++) {
                 // for each position add a cell
-                filledArray[row][col] = <Cell key={`${row},${col}`} value={false} colNum={col} rowNum={row} />;
+                filledArray[row][col] = <Cell key={`${row},${col}`} value={Math.round(Math.random())} colNum={col} rowNum={row} />;
             };
         };
 
@@ -53,7 +53,7 @@ export const GridProvider = props => {
 
     const cloneReactCell = () => {
 
-        let newGrid = createCells(25)
+        let newGrid = createCells(rows)
 
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
@@ -61,7 +61,6 @@ export const GridProvider = props => {
             }
         }
 
-        console.log(newGrid)
         return newGrid;
 
     }
@@ -72,7 +71,6 @@ export const GridProvider = props => {
      * @param {int} col 
      */
     const updateCell = (row, col) => {
-
         const newGrid = cloneReactCell();
         newGrid[row][col] = <Cell key={`${row},${col}`} value={true} rowNum={row} colNum={col} />;
         setGridState(newGrid)
@@ -166,17 +164,21 @@ export const GridProvider = props => {
         // iterate through
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < columns; col++) {
-                console.log(row,col,countNeighbors(row, col))
-                if (countNeighbors(row, col) >= 3) {
+                let count = countNeighbors(row,col)
+                if ((count == 3 || count === 2) && newGrid[row][col].props.value === true) {
                     newGrid[row][col] = <Cell key={`${row},${col}`} value={true} rowNum={row} colNum={col} />
-                    setGridState(newGrid)
-                } else {
+                } else{
                     newGrid[row][col] = <Cell key={`${row},${col}`} value={false} rowNum={row} colNum={col} />
-                    setGridState(newGrid)
-                };
+                }
+
+                if ((count == 3 ) && newGrid[row][col].props.value === false) {
+                    newGrid[row][col] = <Cell key={`${row},${col}`} value={true} rowNum={row} colNum={col} />
+                } 
 
             };
         };
+
+        setGridState(newGrid)
 
 
 
@@ -194,7 +196,7 @@ export const GridProvider = props => {
     // }, [gridState])
 
     // combine state and functions for easy read
-    const [gridState, setGridState] = useState(initGrid(createCells(25)));
+    const [gridState, setGridState] = useState(initGrid(createCells(rows)));
 
     const combinedValues = {
         rows,

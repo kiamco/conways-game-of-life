@@ -4,14 +4,15 @@ import { GridContext } from '../context/gridContext';
 
 const useStyles = makeStyles({
     cellSize: {
-        maxWidth: ({gridProps}) => `${gridProps.cellSize}px`,
-        height: ({gridProps}) => `${gridProps.cellSize}px`,
+        minWidth: ({gridProps}) => `${gridProps.cellSize}px`,
+        minHeight: ({gridProps}) => `${gridProps.cellSize}px`,
+        padding:'5px',
         border: 'solid 1px black',
         cursor:'pointer',
         '&:hover': {
-            background: 'grey'
+            background: 'black'
         },
-        background:({color}) => `${color? 'grey' : 'white'}`
+        background:({color}) => `${color? 'black' : 'white'}`
     }
 });
 

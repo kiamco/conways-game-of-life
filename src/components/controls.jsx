@@ -1,7 +1,7 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Box } from '@material-ui/core';
-import { PlayArrow, RotateLeft } from '@material-ui/icons';
+import { PlayArrow, RotateLeft,Stop } from '@material-ui/icons';
 import { GridContext } from '../context/gridContext';
 
 const useStyles = makeStyles({
@@ -17,33 +17,56 @@ const useStyles = makeStyles({
 const Controls = () => {
 
     const gridProps = useContext(GridContext);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     const reset = () => {
         // write reset logic
+        gridProps.setGridState(
+            gridProps.initGrid(
+                gridProps.createCells(gridProps.rows)
+            )
+        );
 
-    }
+    };
 
     const start = () => {
         // write start logic
-        gridProps.updateGrid()
-    }
+        setIsPlaying(true);
+        console.log(isPlaying)
+
+    };
+    
+    const stop = () => {
+        setIsPlaying(false);
+    };
 
     const classes = useStyles();
 
     useEffect(() => {
+        while(isPlaying){
+            const timeout = setTimeout(() => {
+                console.log('running')
+                gridProps.updateGrid()
+            }, 100)   
+            return () => clearTimeout(timeout);
 
-    },[gridProps.updateGrid, gridProps.updateCell])
+        };
+    },[gridProps.updateGrid, gridProps.updateCell, isPlaying])
 
     return (
         <Box className={classes.controlsContainer}>
             <Box >
-                <Button className={classes.button}>
+                <Button className={classes.button} onClick={reset}>
                     Reset
-            <RotateLeft />
+                    <RotateLeft />
                 </Button>
-                <Button onClick={start}>
+                <Button className={classes.button} onClick={start}>
                     Start
-            <PlayArrow />
+                    <PlayArrow />
+                </Button>
+                <Button className={classes.button} onClick={stop}>
+                    Stop
+                    <Stop />
                 </Button>
             </Box>
         </Box>
