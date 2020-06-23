@@ -27,6 +27,7 @@ const Grid = () => {
 
     /**
      * renders cells
+     * uses gridContext functions to initialize a grid
      */
     const renderCells = () => {
         return gridProps.initGrid(gridProps.createCells(25));
@@ -37,10 +38,13 @@ const Grid = () => {
      * after componnet is mounted
      */
     useEffect(()=> {
-        gridProps.setGridState(renderCells);
-    },[]);
+        // gridProps.setGridState(renderCells);
+        // if(gridProps.gridState.length !== 0){
+        //     console.log(gridProps.countNeighbors(0, 0));
+        // };
 
-    console.log(gridProps.gridState)
+    }, [gridProps.gridState]);
+
 
 
     return (

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Box } from '@material-ui/core';
 import { PlayArrow, RotateLeft } from '@material-ui/icons';
+import { GridContext } from '../context/gridContext';
 
 const useStyles = makeStyles({
     controlsContainer: {
@@ -15,6 +16,8 @@ const useStyles = makeStyles({
 
 const Controls = () => {
 
+    const gridProps = useContext(GridContext);
+
     const reset = () => {
         // write reset logic
 
@@ -22,9 +25,14 @@ const Controls = () => {
 
     const start = () => {
         // write start logic
+        gridProps.updateGrid()
     }
 
     const classes = useStyles();
+
+    useEffect(() => {
+
+    },[gridProps.updateGrid, gridProps.updateCell])
 
     return (
         <Box className={classes.controlsContainer}>
@@ -33,7 +41,7 @@ const Controls = () => {
                     Reset
             <RotateLeft />
                 </Button>
-                <Button>
+                <Button onClick={start}>
                     Start
             <PlayArrow />
                 </Button>
