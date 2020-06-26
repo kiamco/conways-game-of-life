@@ -121,6 +121,7 @@ const Controls = () => {
                         id="demo-simple-select-filled"
                         value={speed}
                         onChange={speedChangeHandler}
+                        label='speed'
                     >
                         <MenuItem value={1000}>1 sec</MenuItem>
                         <MenuItem value={500}>.5 sec</MenuItem>
