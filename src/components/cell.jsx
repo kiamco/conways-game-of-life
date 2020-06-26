@@ -7,12 +7,12 @@ const useStyles = makeStyles({
         minWidth: ({gridProps}) => `${gridProps.cellSize}px`,
         minHeight: ({gridProps}) => `${gridProps.cellSize}px`,
         padding:'5px',
-        border: 'solid 1px black',
+        border: 'solid 1px  rgba(0, 0, 0, .5)',
         cursor:'pointer',
         '&:hover': {
             background: 'black'
         },
-        background:({color}) => `${color? 'black' : 'white'}`
+        background:({color}) => `${color? `#${Math.floor(Math.random()*16777215).toString(16)}` : 'white'}`,
     }
 });
 

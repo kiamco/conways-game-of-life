@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 import Cell from '../components/cell';
+import { CreateNewFolder } from '@material-ui/icons';
 
 export const GridContext = createContext();
 
@@ -8,6 +9,7 @@ export const GridProvider = props => {
     const [rows, setRows] = useState(25);
     const [columns, setColumns] = useState(25);
     const [cellSize] = useState(5);
+    const [running, setRunning] = useState(false);
 
     /**
      * gets the grid by getting the pro of row and cellSize
@@ -44,13 +46,36 @@ export const GridProvider = props => {
         for (let col = 0; col < columns; col++) {
             for (let row = 0; row < rows; row++) {
                 // for each position add a cell
-                filledArray[row][col] = <Cell key={`${row},${col}`} value={Math.round(Math.random())} colNum={col} rowNum={row} />;
+                filledArray[row][col] = <Cell key={`${row},${col}`} value={false} colNum={col} rowNum={row} />;
             };
         };
+        
+
 
         return filledArray;
     };
 
+       /**
+     * fills a 2d array with false boolean values
+     * @param {array} arr2D 
+     */
+    const initRandomGrid = (arr2D) => {
+
+        // assing temp value for immutability
+        const filledArray = arr2D;
+
+        // iterate 2D array and fill false value
+        for (let col = 0; col < columns; col++) {
+            for (let row = 0; row < rows; row++) {
+                // for each position add a cell
+                filledArray[row][col] = <Cell key={`${row},${col}`} value={Math.round(Math.random())} colNum={col} rowNum={row} />;
+            };
+        };
+        
+
+
+        return filledArray;
+    };
     const cloneReactCell = () => {
 
         let newGrid = createCells(rows)
@@ -71,9 +96,15 @@ export const GridProvider = props => {
      * @param {int} col 
      */
     const updateCell = (row, col) => {
-        const newGrid = cloneReactCell();
-        newGrid[row][col] = <Cell key={`${row},${col}`} value={true} rowNum={row} colNum={col} />;
-        setGridState(newGrid)
+
+        if(running) {
+            console.log('game is running');
+        } else {
+            const newGrid = cloneReactCell();
+            newGrid[row][col] = <Cell key={`${row},${col}`} value={!newGrid[row][col].props.value} rowNum={row} colNum={col} />;
+            setGridState(newGrid);            
+        };
+
     };
 
 
@@ -211,7 +242,10 @@ export const GridProvider = props => {
         setGridState,
         updateCell,
         countNeighbors,
-        updateGrid
+        updateGrid,
+        initRandomGrid,
+        running,
+        setRunning
     };
 
     return (
